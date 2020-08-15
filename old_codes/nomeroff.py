@@ -1,5 +1,5 @@
 # Принцип работы:
-# 
+#
 # 1. В папку in помещаются картинки
 # 2. Запускается настоящий скрипт
 # 3. В папке out появляется файл output.csv, представляющий из себя таблицу со следующими полями:
@@ -24,7 +24,7 @@ MASK_RCNN_DIR = os.path.join(NOMEROFF_NET_DIR, 'Mask_RCNN')
 MASK_RCNN_LOG_DIR = os.path.join(NOMEROFF_NET_DIR, 'logs')
 
 
-bork = Worker(NOMEROFF_NET_DIR, MASK_RCNN_DIR, MASK_RCNN_LOG_DIR, 
+bork = Worker(NOMEROFF_NET_DIR, MASK_RCNN_DIR, MASK_RCNN_LOG_DIR,
               load_model="latest", options_detector="latest", text_detector_module="eu", load_text_detector="latest")
 
 

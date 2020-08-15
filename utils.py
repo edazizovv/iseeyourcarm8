@@ -1,5 +1,7 @@
 #
 import numpy
+import pandas
+import subprocess
 from PIL import Image
 
 
@@ -7,7 +9,7 @@ from PIL import Image
 
 
 #
-def catch_the_car(bork, detector, custom, input_image_path, output_detected_image_path, output_cropped_image_path, probability_threshold=30, prev=None):
+def catch_the_car(bork, detector, custom, input_image_path, output_detected_image_path, output_cropped_image_path, comparator_env, probability_threshold=30, prev=None):
 
     # Stage 1: Detect the car
 
@@ -40,14 +42,23 @@ def catch_the_car(bork, detector, custom, input_image_path, output_detected_imag
     # Stage 4: Compare with previous
 
     if prev is None:
+
         cmp_score_im, cmp_score_numberplate_code = numpy.nan, numpy.nan
+
     else:
+
         prev_im_path = prev['im']
         prev_im_numberplate_code = prev['nc']
         im_comparator = prev['im_c']
         numberplate_code_comparator = prev['nc_c']
 
-        cmp_score_im = im_comparator(im0=prev_im_path, im1=output_cropped_image_path)
-        cmp_score_numberplate_code = numberplate_code_comparator(code0=prev_im_numberplate_code, code1=numberplate_code)
+        target_script = './compare.py'
+        subprocess.run([comparator_env,
+                        target_script, im_comparator, numberplate_code_comparator,
+                        prev_im_path, output_cropped_image_path,
+                        prev_im_numberplate_code, numberplate_code])
+
+        result_frame = pandas.read_csv('./result.csv')
+        cmp_score_im, cmp_score_numberplate_code = result_frame.values[0, :].tolist()
 
     return cropped_img, numberplate_code, cmp_score_im, cmp_score_numberplate_code
