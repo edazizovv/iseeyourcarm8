@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "iseeyourcarm8"
+version = "0.0.1"
+description = "Object detection \u0026 OCR for vehicle registration plates"
+authors = [
+  "edazizovv",
+]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "iseeyourcarm8"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
